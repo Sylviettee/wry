@@ -298,6 +298,10 @@ impl InnerWebView {
         };
       }
 
+      if !attributes.hardware_acceleration {
+        arguments.push_str(" --disable-gpu");
+      }
+
       arguments
     });
 

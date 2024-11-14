@@ -26,12 +26,12 @@ use std::{
 #[cfg(any(debug_assertions, feature = "devtools"))]
 use webkit2gtk::WebInspectorExt;
 use webkit2gtk::{
-  AutoplayPolicy, CookieManagerExt, InputMethodContextExt, LoadEvent, NavigationPolicyDecision,
-  NavigationPolicyDecisionExt, NetworkProxyMode, NetworkProxySettings, PolicyDecisionType,
-  PrintOperationExt, SettingsExt, URIRequest, URIRequestExt, UserContentInjectedFrames,
-  UserContentManager, UserContentManagerExt, UserScript, UserScriptInjectionTime,
-  WebContextExt as Webkit2gtkWeContextExt, WebView, WebViewExt, WebsiteDataManagerExt,
-  WebsiteDataManagerExtManual, WebsitePolicies,
+  AutoplayPolicy, CookieManagerExt, HardwareAccelerationPolicy, InputMethodContextExt, LoadEvent,
+  NavigationPolicyDecision, NavigationPolicyDecisionExt, NetworkProxyMode, NetworkProxySettings,
+  PolicyDecisionType, PrintOperationExt, SettingsExt, URIRequest, URIRequestExt,
+  UserContentInjectedFrames, UserContentManager, UserContentManagerExt, UserScript,
+  UserScriptInjectionTime, WebContextExt as Webkit2gtkWeContextExt, WebView, WebViewExt,
+  WebsiteDataManagerExt, WebsiteDataManagerExtManual, WebsitePolicies,
 };
 use webkit2gtk_sys::{
   webkit_get_major_version, webkit_get_micro_version, webkit_get_minor_version,
@@ -398,6 +398,11 @@ impl InnerWebView {
       // Devtools
       if attributes.devtools {
         settings.set_enable_developer_extras(true);
+      }
+
+      // Hardware acceleration
+      if !attributes.hardware_acceleration {
+        settings.set_hardware_acceleration_policy(HardwareAccelerationPolicy::Never);
       }
     }
   }
